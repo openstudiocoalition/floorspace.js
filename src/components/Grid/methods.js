@@ -166,6 +166,9 @@ export default {
     }
   },
   highlightComponentToSelect() {
+    if (d3.event == null) {
+      return null;
+    }
     if (d3.event.shiftKey) {
       return null;
     }
