@@ -69,6 +69,7 @@ export default function importLibrary(context, payload) {
         "construction_sets",
         "window_definitions",
         "daylighting_control_definitions",
+        "door_definitions",
         "pitched_roofs",
       ].map((k) => [
         k,

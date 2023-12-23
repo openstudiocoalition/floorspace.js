@@ -168,13 +168,17 @@ export default {
       }
     },
     windowAndDoorDefs() {
-      return [
-        ...this.windowDefs,
-        ...this.doorDefs.map((d) => ({
+      let result = [...this.windowDefs];
+      if (this.doorDefs){
+        // add attribute window_definition_mode to the door definitions
+        let doors = [
+          ...this.doorDefs.map((d) => ({
           ...d,
           window_definition_mode: "Single Window",
-        })),
-      ];
+        }))];
+        result = result.concat(doors);
+      }
+      return result;
     },
     currentImage: {
       get() {

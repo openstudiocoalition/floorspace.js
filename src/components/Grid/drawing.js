@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import "d3-selection-multi";
 import _ from "lodash";
 import {
   distanceBetweenPoints,
@@ -224,32 +223,50 @@ function distanceMeasure() {
           labelPosition * yScale(d.end.y)
       )
       .attr("dominant-baseline", "text-before-edge")
-      .attrs((d) => {
-        const { dx, dy } = unitPerpVector(d.start, d.end),
-          offset = 4;
-        return {
-          dx: dx * offset,
-          dy: dy * offset,
-        };
+      .attr(
+        "dx",
+        (d) => {
+          const { dx, dy } = unitPerpVector(d.start, d.end), offset = 4;
+          return dx * offset;
+      })
+      .attr(
+        "dy",
+        (d) => {
+          const { dx, dy } = unitPerpVector(d.start, d.end), offset = 4;
+          return dy * offset;
       })
       .text((d) => {
         const distance = distanceBetweenPoints(d.start, d.end),
           roundDistance = Math.round(distance * 100) / 100;
         return `${roundDistance}`;
       });
-    measure.select("line").attrs((d) => {
-      const { dx, dy } = unitVector(d.start, d.end),
-        offset = 11.5,
-        offX = dx * offset,
-        offY = dy * offset;
 
-      return {
-        x1: xScale(d.start.x) + offX,
-        y1: yScale(d.start.y) - offY,
-        x2: xScale(d.end.x) - offX,
-        y2: yScale(d.end.y) + offY,
-      };
-    });
+    measure.select("line")
+      .attr(
+        "x1",
+        (d) => {
+          const { dx, dy } = unitVector(d.start, d.end), offset = 11.5, offX = dx * offset, offY = dy * offset;
+          return xScale(d.start.x) + offX;
+      })
+      .attr(
+        "y1",
+        (d) => {
+          const { dx, dy } = unitVector(d.start, d.end), offset = 11.5, offX = dx * offset, offY = dy * offset;
+          return yScale(d.start.y) - offY;
+      })
+      .attr(
+        "x2",
+        (d) => {
+          const { dx, dy } = unitVector(d.start, d.end), offset = 11.5, offX = dx * offset, offY = dy * offset;
+          return xScale(d.end.x) - offX;
+      })
+      .attr(
+        "y2",
+        (d) => {
+          const { dx, dy } = unitVector(d.start, d.end), offset = 11.5, offX = dx * offset, offY = dy * offset;
+          return yScale(d.end.y) + offY;
+      });
+
     const arrowHead = "M -6,-2 V 2 L0,0 Z",
       rotate = (d) => {
         // did ya ever... did ya ever program by guess and check?
