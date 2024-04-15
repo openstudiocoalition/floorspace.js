@@ -126,7 +126,7 @@ export default {
 .settings {
   margin: 0 auto;
   width: 200px;
-  input {
+  .input-text input {
     height: 20px;
     font-size: 16px;
     margin-left: auto;
