@@ -36,6 +36,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 export default {
   name: "ModalBase",
   props: ["title"],
+  emits: ["close"],
   methods: {
     close: function () {
       this.$emit("close");

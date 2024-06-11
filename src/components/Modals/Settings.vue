@@ -63,6 +63,7 @@ import ExpandableDrawer from "../ExpandableDrawer.vue";
 
 export default {
   name: "Settings",
+  emits: ["close"],
   computed: {
     ...mapState({
       ground: (state) => state.project.ground,

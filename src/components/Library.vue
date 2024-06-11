@@ -23,7 +23,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND 
     :duplicateRow="duplicateRow"
     :searchAvailable="searchAvailable"
     :compact="compact"
-    @toggleCompact="(c) => $emit('toggleCompact', c)"
+    @toggleCompact="(c) => {
+      $emit('toggleCompact', c)
+    }"
     @selectObjectType="changeMode"
   />
 </template>
@@ -39,6 +41,7 @@ import {
   componentTypes,
 } from "../store/modules/application/appconfig";
 import modelHelpers from "../store/modules/models/helpers";
+import _ from "lodash";
 
 function keyForMode(mode) {
   return mode === "stories"
@@ -61,10 +64,27 @@ export default {
     "compact",
     "addNewOnHotkey",
   ],
+  emits: ["changeMode", 'toggleCompact'],
   mounted() {
     document.body.addEventListener("keyup", this.hotkeyAddNew);
+
+    // used only for test purpose
+    window.spaceLibrary = this;
+
+    // Object.defineProperty(window.spaceLibrary, 'currentStory', {
+    //   get() {
+    //     console.log('get currentStory')
+    //     return this.$store.getters["application/currentStory"];
+    //   },
+    //   set(story) {
+    //     console.log('set store');
+    //     this.$store.dispatch("application/setCurrentStoryId", { id: story.id });
+    //   },
+    //   enumerable: true,
+    //   configurable: true
+    // });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.body.removeEventListener("keyup", this.hotkeyAddNew);
   },
   computed: {
@@ -225,15 +245,18 @@ export default {
         this.createObject();
       }
     },
+    // understand why newMode is a string or an event
     changeMode(newMode) {
-      if (!_.includes(this.objectTypes, newMode)) {
+      const mode = newMode?.target?.value || newMode;
+
+      if (!_.includes(this.objectTypes, mode)) {
         throw new Error(
-          `Unable to find ${newMode} in options ${JSON.stringify(
+          `Unable to find ${mode} in options ${JSON.stringify(
             this.objectTypes
           )}`
         );
       }
-      this.$emit("changeMode", newMode);
+      this.$emit("changeMode", mode);
     },
     modifyObject(rowId, colName, value) {
       if (this.componentInstanceMode) {
@@ -248,7 +271,7 @@ export default {
         value
       );
       if (!result.success) {
-        window.eventBus.$emit("error", result.error);
+        window.eventBus.emit("error", result.error);
       }
     },
     modifyComponentInstance(id, key, value) {
@@ -301,11 +324,11 @@ export default {
             });
             break;
           case "images":
-            window.eventBus.$emit("uploadImage");
+            window.eventBus.emit("uploadImage");
             break;
           case "windows":
           case "daylighting_controls":
-            window.eventBus.$emit(
+            window.eventBus.emit(
               "error",
               "Create components by clicking where you would like it to be"
             );

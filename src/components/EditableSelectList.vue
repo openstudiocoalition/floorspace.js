@@ -62,6 +62,7 @@ import LibrarySelect from "./LibrarySelect.vue";
 import PrettySelect from "./PrettySelect.vue";
 import DoubleArrows from "./../assets/svg-icons/double_arrows.svg";
 import AddNew from "./../assets/svg-icons/add_new.svg";
+import _ from "lodash";
 
 export default {
   name: "EditableSelectList",
@@ -79,6 +80,7 @@ export default {
     "compact",
     "duplicateRow",
   ],
+  emits: ["selectObjectType", "toggleCompact"],
   data() {
     return {
       search: "",

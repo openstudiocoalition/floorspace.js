@@ -15,8 +15,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
           :objectTypes="['stories']"
           :mode="'stories'"
           :compact="libraryExpanded !== 'stories'"
-          @toggleCompact="
+          @toggleCompact="(compat) => {
             libraryExpanded = libraryExpanded === 'stories' ? false : 'stories'
+          }
           "
         />
         <Library
@@ -30,9 +31,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
           "
           :searchAvailable="true"
           :compact="libraryExpanded !== 'subselection'"
-          @toggleCompact="
+          @toggleCompact="(compat) => {
             libraryExpanded =
               libraryExpanded === 'subselection' ? false : 'subselection'
+            }
           "
         />
       </div>
@@ -48,6 +50,7 @@ import Library from "./Library.vue";
 
 export default {
   name: "navigation",
+  emits: ["expanded"],
   data() {
     return {
       libraryExpanded: false,
@@ -145,7 +148,7 @@ export default {
     },
     setWidthForOpenLibrary() {
       this.$emit("expanded", !!this.libraryExpanded);
-      ResizeEvents.$emit("resize");
+      ResizeEvents.emit("resize");
     },
   },
   watch: {

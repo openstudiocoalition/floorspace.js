@@ -38,7 +38,9 @@ yarn run e2e
 
 # run performance tests (optional)
 yarn perf
+
+# run test playwright watch mode interactive
+yarn playwright test --ui test/playwright
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-

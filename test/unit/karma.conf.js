@@ -5,12 +5,8 @@
 
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-const path = require('path');
 const { merge } = require('webpack-merge');
-const webpack = require('webpack');
 const baseConfig = require('../../build/webpack.base.conf');
-
-const projectRoot = path.resolve(__dirname, '../../');
 
 const webpackConfig = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
@@ -27,10 +23,10 @@ module.exports = function (config) {
     // 2. add it to the `browsers` array below.
     browsers: ['ChromeHeadless'],
     frameworks: ['mocha', 'sinon-chai'],
-    reporters: ['spec'],
+    reporters: ['spec', 'html', 'coverage'],
     files: ['./index.js'],
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap'],
+      './index.js': ['webpack', 'sourcemap', 'coverage'],
     },
     webpack: webpackConfig,
     webpackMiddleware: {
@@ -38,6 +34,14 @@ module.exports = function (config) {
       stats: {
         chunks: false,
       },
+    },
+    coverageReporter: {
+      dir: 'coverage/',
+      reporters: [
+        // reporters not supporting the `file` property
+        { type: 'html', subdir: 'report-html' },
+        { type: 'lcov', subdir: 'report-lcov' },
+      ],
     },
   });
 };

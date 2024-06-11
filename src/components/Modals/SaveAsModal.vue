@@ -51,6 +51,7 @@ import ModalBase from "./ModalBase.vue";
 export default {
   name: "SaveAsModal",
   props: [],
+  emits: ["close"],
   mounted() {
     this.$refs.downloadName.focus();
   },

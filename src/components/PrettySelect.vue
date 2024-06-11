@@ -43,6 +43,7 @@ export default {
     "type",
     "type_id",
   ],
+  emits: ["change"],
   computed: {
     normalizedOpts() {
       /**

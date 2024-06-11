@@ -28,7 +28,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <script>
 import { mapState, mapGetters } from "vuex";
 import { debounce } from "../../utilities";
-import d3AwareThrottle from "../../utilities/d3-aware-throttle";
+import _ from "lodash";
 import methods from "./methods";
 import geometryHelpers, {
   pointDistanceToSegment,
@@ -85,7 +85,11 @@ export default {
   },
   mounted() {
     // throttle/debounce event handlers
-    this.handleMouseMove = d3AwareThrottle(this.highlightSnapTarget, 100);
+    this.handleMouseMove = _.throttle(this.highlightSnapTarget, 100, {
+      leading: true,
+      trailing: true,
+      maxWait: 100,
+    });
 
     // render grid first time (not debounced, as this seems to fix an issue
     // where the x bounds are set correctly, and then becomes incorrect when the
@@ -101,22 +105,28 @@ export default {
     window.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("resize", this.reloadGridAndScales);
 
-    ResizeEvents.$on("resize", this.reloadGridAndScales);
+    ResizeEvents.on("resize", this.reloadGridAndScales);
 
-    window.eventBus.$on("zoomToFit", this.zoomToFit);
-    window.eventBus.$on("scaleTo", this.scaleTo);
+    window.eventBus.on("zoomToFit", this.zoomToFit);
+    window.eventBus.on("scaleTo", this.scaleTo);
+
+    // discuss this - select space
+    this.$store.dispatch(
+      "application/setCurrentSubSelectionId",
+      this.currentStory.spaces[0]
+    );
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.$refs.grid.removeEventListener("reloadGrid", this.reloadGridAndScales);
 
     window.removeEventListener("keyup", this.escapeAction);
     window.removeEventListener("keydown", this.handleKeyDown);
     window.removeEventListener("resize", this.reloadGridAndScales);
 
-    ResizeEvents.$off("resize", this.reloadGridAndScales);
+    ResizeEvents.on("resize", this.reloadGridAndScales);
 
-    window.eventBus.$off("zoomToFit", this.zoomToFit);
-    window.eventBus.$off("scaleTo", this.scaleTo);
+    window.eventBus.on("zoomToFit", this.zoomToFit);
+    window.eventBus.on("scaleTo", this.scaleTo);
   },
   computed: {
     ...mapState({
@@ -430,6 +440,7 @@ export default {
       this.points = [];
       this.draw();
       this.clearHighlights();
+
       if (this.currentTool === "Image" && this.currentStory.images.length) {
         if (
           !this.currentImage ||
@@ -443,7 +454,7 @@ export default {
       } else if (
         !_.includes(
           _.map(this.currentStory.spaces, "id"),
-          this.currentSubSelection.id
+          this.currentSubSelection?.id
         )
       ) {
         this.currentSubSelection = this.currentStory.spaces[0];

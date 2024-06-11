@@ -11,6 +11,7 @@
 import libconfig from "../store/modules/models/libconfig";
 import { mapGetters } from "vuex";
 import EditBar from "./EditBar.vue";
+import _ from "lodash";
 
 export default {
   computed: {

@@ -1,23 +1,24 @@
 const path = require("path");
 const { VueLoaderPlugin } = require('vue-loader')
+const CopyPlugin = require("copy-webpack-plugin");
 
 const cwd = process.cwd();
 
+const output = path.resolve(cwd, 'dist');
+
 module.exports = {
   entry: {
-    app: "./src/main.js"
-    //DLM: comment 3DViewer out for now
-    //viewer: "./3DViewer/viewer/index.js",
+    app: "./src/main.ts",
+    viewer: "./3DViewer/viewer/index.js",
   },
   output: {
-    path: path.resolve(cwd, 'dist'),
+    path: output,
     publicPath: '/',
     filename: "[name].js",
   },
   resolve: {
-    extensions: ["", ".js", ".vue", ".json"],
+    extensions: ["", ".js", ".vue", ".json", ".ts", ".tsx"],
     alias: {
-      vue$: "vue/dist/vue.common.js",
       src: path.resolve(cwd, "src"),
       assets: path.resolve(cwd, "src/assets"),
       components: path.resolve(cwd, "src/components"),
@@ -25,6 +26,11 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: "site.webmanifest", to: output },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -40,7 +46,7 @@ module.exports = {
       {
         test: /\.svg$/,
         use: [
-          // 'vue-loader',
+          'vue-loader',
           'vue-svg-loader',
         ],
       },

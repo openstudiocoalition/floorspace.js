@@ -65,23 +65,22 @@ export default {
     this.$store.dispatch("models/initStory");
   },
   mounted() {
-    window.eventBus.$on("error", (err) => {
+    window.eventBus.on("error", (err) => {
       this.error = err;
       setTimeout(() => {
         this.error = null;
       }, 5000);
     });
-    window.eventBus.$on("success", (msg) => {
+    window.eventBus.on("success", (msg) => {
       this.success = msg;
       setTimeout(() => {
         this.success = null;
       }, 5000);
     });
-    window.eventBus.$on("reload-grid", () => {
+    window.eventBus.on("reload-grid", () => {
       // This is unfortunate. oh well.
       document
-        .getElementById("svg-grid")
-        .dispatchEvent(new Event("reloadGrid"));
+        .getElementById("svg-grid")?.dispatchEvent(new Event("reloadGrid"));
     });
 
     document.addEventListener("keydown", (e) => {

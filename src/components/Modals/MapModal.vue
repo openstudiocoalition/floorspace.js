@@ -71,6 +71,7 @@ import NonChromeWarning from "../NonChromeWarning.vue";
 
 export default {
   name: "MapModal",
+  emits: ["close"],
   data() {
     return {
       address: "",

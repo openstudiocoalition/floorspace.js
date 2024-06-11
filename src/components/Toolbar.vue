@@ -53,11 +53,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               class="button"
             ></merge-icon-svg>
           </div>
-          <!--
-          //<div v-if="enable3DPreview" title="Open 3D Previewer">
-          //  <globe-icon-svg @click.native="open3DPreviewer" class="button" />
-          //</div>
-          //-->
+          <div v-if="enable3DPreview" title="Open 3D Previewer">
+            <globe-icon-svg @click.native="open3DPreviewer" class="button" />
+          </div>
         </div>
 
         <div id="undo-redo">
@@ -277,6 +275,7 @@ import ComponentInstanceEditBar from "./ComponentInstanceEditBar.vue";
 import appconfig, {
   componentTypes,
 } from "../store/modules/application/appconfig";
+import _ from "lodash";
 
 // svgs
 
@@ -293,25 +292,30 @@ export default {
       showGroundPropsModal: false,
     };
   },
+  mounted() {
+    // used only for test purpose
+    window.toolbar = {
+      importDataAsFile: this.importDataAsFile,
+    };
+  },
   methods: {
     setImageTool() {
       this.tool = "Image";
       if (this.currentStory.images.length === 0) {
-        window.eventBus.$emit("uploadImage");
+        window.eventBus.emit("uploadImage");
       }
     },
     zoomToFit() {
-      window.eventBus.$emit("zoomToFit");
+      window.eventBus.emit("zoomToFit");
     },
     exportData() {
       this.showSaveModal = true;
       return this.$store.getters["exportData"];
     },
-    //DLM: comment 3DViewer out for now
-    //open3DPreviewer() {
-    //  localStorage.setItem("floorplan3DExport", JSON.stringify(application.$store.getters['exportData']));
-    //  window.open('3DViewer');
-    //},
+    open3DPreviewer() {
+      localStorage.setItem("floorplan3DExport", JSON.stringify(application.$store.getters['exportData']));
+      window.open('3DViewer/index.html');
+    },
     importDataAsFile(event, type) {
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -323,15 +327,15 @@ export default {
           try {
             data = JSON.parse(reader.result);
           } catch (e) {
-            window.eventBus.$emit("error", "Invalid JSON");
+            window.eventBus.emit("error", "Invalid JSON");
             return;
           }
           if (type === "library") {
             this.$store.dispatch("importLibrary", { data });
           } else if (type === "floorplan") {
             this.$store.dispatch("importFloorplan", {
-              clientWidth: document.getElementById("svg-grid").clientWidth,
-              clientHeight: document.getElementById("svg-grid").clientHeight,
+              clientWidth: document.getElementById("svg-grid")?.clientWidth,
+              clientHeight: document.getElementById("svg-grid")?.clientHeight,
               data,
             });
           }
@@ -354,7 +358,7 @@ export default {
           try {
             data = JSON.parse(reader.result);
           } catch (e) {
-            window.eventBus.$emit("error", "Invalid JSON");
+            window.eventBus.emit("error", "Invalid JSON");
             return;
           }
           this.$store.dispatch("mergeFloorplans", { data });
@@ -376,7 +380,7 @@ export default {
       if (this.allowSettingUnits) {
         this.rwUnits = val;
       } else {
-        window.eventBus.$emit(
+        window.eventBus.emit(
           "error",
           "Units must be set before any geometry is drawn."
         );

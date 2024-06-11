@@ -23,8 +23,7 @@ var viewerPath = path.join(config.build.assetsRoot, config.build.viewerSubDirect
 rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
 cp('-R', 'static/*', assetsPath)
-//DLM: comment 3DViewer out for now
-//cp('3DViewer/build/*', viewerPath)
+cp('3DViewer/build/*', viewerPath)
 
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()

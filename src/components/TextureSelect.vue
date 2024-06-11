@@ -38,14 +38,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 </template>
 
 <script>
-import Vue from "vue";
 import { Portal } from "portal-vue";
 import { textures } from "../store/modules/application/appconfig";
-import _ from "lodash";
 
 export default {
   name: "TextureSelect",
   props: ["value", "label", "disabled"],
+  emits: ["change"],
   data() {
     return {
       open: false,

@@ -27,11 +27,10 @@ const staticPath = path.posix.join(
   config.dev.assetsSubDirectory
 );
 app.use(staticPath, express.static("./static"));
-//DLM: comment 3DViewer out for now
-//app.use(
-//  path.posix.join(config.dev.assetsPublicPath, "3DViewer/"),
-//  express.static("./3DViewer/build/")
-//);
+app.use(
+  path.posix.join(config.dev.assetsPublicPath, "3DViewer/"),
+  express.static("./3DViewer/build/")
+);
 
 var devMiddleware = require("webpack-dev-middleware")(compiler, {
   publicPath: webpackConfig.output.publicPath,

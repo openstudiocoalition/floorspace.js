@@ -15,7 +15,7 @@ import modelHelpers from "./../store/modules/models/helpers";
 export default {
   name: "ImageUpload",
   mounted() {
-    window.eventBus.$on("uploadImage", this.promptUpload.bind(this));
+    window.eventBus.on("uploadImage", this.promptUpload.bind(this));
   },
   computed: {
     ...mapState({
