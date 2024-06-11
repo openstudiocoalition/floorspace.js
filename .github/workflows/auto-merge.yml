@@ -3,7 +3,7 @@ name: auto-merge
 on:
   pull_request_target:
     branches:
-      - main
+      - develop
 
 jobs:
   auto-merge:

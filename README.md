@@ -5,7 +5,7 @@
 
 ## Getting Started
 
-Read [the docs](https://nrel.github.io/floorspace.js/docs) then try out the [latest development version](https://nrel.github.io/floorspace.js/) in your browser.
+Read [the docs](https://openstudiocoalition.org/floorspace.js/docs) then try out the [latest development version](https://openstudiocoalition.org/floorspace.js/) in your browser.
 
 ## Build Setup
 
