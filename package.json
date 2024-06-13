@@ -7,7 +7,7 @@
     "@turf/boolean-point-in-polygon": "^6.5.0",
     "area-polygon": "^1.0.1",
     "core-js": "^3.37.1",
-    "d3": "6.7.0",
+    "d3": "7.9.0",
     "d3-selection": "3.0.0",
     "google-maps-api": "^2.0.1",
     "lodash": "^4.17.4",
