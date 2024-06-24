@@ -13360,10 +13360,10 @@ tsscmp@1.0.6:
   resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.6.tgz#85b99583ac3589ec4bfef825b5000aa911d605eb"
   integrity sha512-LxhtAkPDTkVCMQjt2h6eBVY28KCjikZqZfMcC15YBeNjkgUpdCfBu5HoiOTDu86v6smE8yOjyEktJ8hlbANHQA==
 
-tsx@^4.11.2:
-  version "4.15.1"
-  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.15.1.tgz#884a8d5f6bbeed82724e53f1138a6b824923c29d"
-  integrity sha512-k/6h17jA1KfUR7SpcteOa880zGmF56s8gMIcSqUR5avyNFi9nlCEKpMiHLrzrqyARGr52A/JablmGey1DEWbCA==
+tsx@^4.15.7:
+  version "4.15.7"
+  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.15.7.tgz#69d7499196a323507c4051d2ba10753edcc057e5"
+  integrity sha512-u3H0iSFDZM3za+VxkZ1kywdCeHCn+8/qHQS1MNoO2sONDgD95HlWtt8aB23OzeTmFP9IU4/8bZUdg58Uu5J4cg==
   dependencies:
     esbuild "~0.21.4"
     get-tsconfig "^4.7.5"
