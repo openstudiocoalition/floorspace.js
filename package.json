@@ -149,7 +149,7 @@
     "ora": "^0.3.0",
     "patch-package": "^8.0.0",
     "postcss-loader": "^8.1.1",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.3",
     "puppeteer": "^22.10.0",
     "sass": "^1.77.4",
     "sass-loader": "^14.2.1",
